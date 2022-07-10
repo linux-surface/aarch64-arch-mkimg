@@ -6,5 +6,5 @@ build() {
     _rootfs_build
     _rootfs_cleanup_full
     _img_prepare_tree_default
-    # TODO: build ISO
+    _img_build
 }
