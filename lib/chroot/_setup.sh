@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-_CHROOT_BASE="/root/aarch64-archiso"
+_CHROOT_BASE="/root/aarch64-archimg"
 _CHROOT_LIB="${_CHROOT_BASE}/lib"
 _CHROOT_MODULES="${_CHROOT_BASE}/modules"
 _CHROOT_PACKAGES="${_CHROOT_BASE}/packages"

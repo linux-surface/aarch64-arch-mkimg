@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-_CHROOT_BASE="/root/aarch64-archiso"
+_CHROOT_BASE="/root/aarch64-archimg"
 _CHROOT_LIB="${_CHROOT_BASE}/lib"
 _CHROOT_SETUP="${_CHROOT_LIB}/_setup.sh"
 _CHROOT_MODULES="${_CHROOT_BASE}/modules"

@@ -32,7 +32,7 @@ _img_prepare_tree_ramfs() {
     _msg2 "Preparing full initram..."
 
     local tmpdir;
-    tmpdir=$(mktemp -d -t aarch64-archiso-rootfs.XXXXXXXXXX)
+    tmpdir=$(mktemp -d -t aarch64-archimg-rootfs.XXXXXXXXXX)
 
     cp -a "${_DIR_BUILD_ROOTFS}/." "${tmpdir}"
 
