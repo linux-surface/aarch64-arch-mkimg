@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 install() {
-    _msg2 "Enabling basic services..."
+    _msg2 "Enabling iwd.service..."
 
     systemctl enable iwd.service
 }
