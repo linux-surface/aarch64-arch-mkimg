@@ -20,9 +20,9 @@ _rootfs_chroot_install() {
 
     mkdir -p "${_DIR_BUILD_ROOTFS:?}/${_CHROOT_BASE}"
 
-    cp -r "${_DIR_BASE}/lib/chroot/." "${_DIR_BUILD_ROOTFS:?}/${_CHROOT_LIB}"
-    cp -r "${_PROFILE_DIR}/modules/." "${_DIR_BUILD_ROOTFS:?}/${_CHROOT_MODULES}"
-    cp -r "${_PROFILE_DIR}/packages/." "${_DIR_BUILD_ROOTFS:?}/${_CHROOT_PACKAGES}"
+    cp -rL "${_DIR_BASE}/lib/chroot/." "${_DIR_BUILD_ROOTFS:?}/${_CHROOT_LIB}"
+    cp -rL "${_PROFILE_DIR}/modules/." "${_DIR_BUILD_ROOTFS:?}/${_CHROOT_MODULES}"
+    cp -rL "${_PROFILE_DIR}/packages/." "${_DIR_BUILD_ROOTFS:?}/${_CHROOT_PACKAGES}"
 
     chmod +x "${_DIR_BUILD_ROOTFS:?}/${_CHROOT_SETUP}"
 }
