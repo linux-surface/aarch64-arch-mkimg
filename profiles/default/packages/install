@@ -1,0 +1,9 @@
+base
+base-devel
+git
+wget
+iwd
+crda
+usbutils
+htop
+neovim

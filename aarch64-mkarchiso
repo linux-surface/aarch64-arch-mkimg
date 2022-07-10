@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -e
+
+_SCRIPT=$(readlink -f "${0}")
+
+_DIR_BASE="$(dirname "${_SCRIPT}")"
+_DIR_LIB="${_DIR_BASE}/lib/base"
+
+_DIR_BUILD="${_DIR_BASE}/build"
+_DIR_BUILD_SRC="${_DIR_BUILD}/src"
+_DIR_BUILD_ROOTFS="${_DIR_BUILD}/rootfs"
+
+_DIR_DISK="${_DIR_BUILD}/disk"
+_DIR_DISK_EFI="${_DIR_BUILD}/disk/efi"
+_DIR_DISK_ROOT="${_DIR_BUILD}/disk/root"
+
+# TODO: command line interface
+
+_PROFILE_NAME="${1}"
+_PROFILE_DIR="${_DIR_BASE}/profiles/${_PROFILE_NAME}"
+
+source "${_DIR_LIB}/base.sh"
+source "${_DIR_LIB}/img.sh"
+source "${_DIR_LIB}/log.sh"
+source "${_DIR_LIB}/rootfs.sh"
+source "${_DIR_LIB}/source.sh"
+
+_run_module_fn "${_PROFILE_DIR}/profile.sh" build
+_msg1 "Done!"
