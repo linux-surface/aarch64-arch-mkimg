@@ -6,7 +6,7 @@ _SCRIPT=$(readlink -f "${0}")
 _DIR_BASE="$(dirname "${_SCRIPT}")"
 _DIR_LIB="${_DIR_BASE}/lib/base"
 
-_DIR_BUILD="${_DIR_BASE}/build"
+_DIR_BUILD="${PWD}/build"
 _DIR_BUILD_SRC="${_DIR_BUILD}/src"
 _DIR_BUILD_ROOTFS="${_DIR_BUILD}/rootfs"
 
