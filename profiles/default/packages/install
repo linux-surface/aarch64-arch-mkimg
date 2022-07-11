@@ -1,5 +1,9 @@
 base
 base-devel
+linux-surface
+linux-surface-headers
+linux-firmware-msft-surface-pro-x
+linux-firmware-msft-surface-pro-x-qcom
 git
 wget
 iwd
