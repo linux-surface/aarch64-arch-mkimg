@@ -18,6 +18,16 @@ where `<profile>` is the desired profile.
 Outputs and intermediate build files are stored in `./build`.
 Disk images are written to `./build/disk.img` and final file system trees to `./build/disk/root` for the root partition and `./build/disk/efi` for the EFI/EFS partition.
 
+You can also run the script via the provided Docker container (e.g. in case you do not have access to an Arch Linux host system).
+A pre-built container for an x86 host can be obtained via
+```
+docker pull ghcr.io/linux-surface/aarch64-arch-mkimg
+```
+Disk images can then be generated via
+```
+docker run --rm --privileged -v /dev:/dev -v "${PWD}/build":/build aarch64-arch-mkimg <profile>
+```
+
 Default login credentials are the ones provided by the Arch Linux ARM root file system, i.e. user/password `alarm`/`alarm` and `root`/`root`.
 Note that, by default, an OpenSSH server is running.
 Therefore, please do not connect this machine directly to the internet (without firewall) before changing those.
