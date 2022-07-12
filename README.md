@@ -59,15 +59,35 @@ The `aarch64-arch-mkimage` utility works in three major steps:
 
   To use this profile, format the USB stick, e.g. via `gdisk` and create an EFI (`gdisk` type `ef00`) partition with 128Mib and a root partition (`gdisk` type `8300` or `8304`).
   You can adapt the partition sizes as needed.
-  Format the EFI partition via
+  Assuming the USB stick is present as `/dev/sdX`, this translates to the following `sgdisk` commands:
   ```
-  mkfs.fat -F 32 /dev/sdXY
+  sgdisk /dev/sdX -n 0:0:+128MiB -t 0:ef00 -c 0:efi
+  sgdisk /dev/sdX -n 0:0:+ -t 0:8300 -c 0:boot
+  partprobe
+  ```
+
+  Thereafter, format partitions, e.g. via
+  ```
+  mkfs.fat -F 32 /dev/sdX1
+  mkfs.ext4 /dev/sdX2
   ```
 
   Finally, mount EFI and root partitions and copy over the respective file system trees, e.g. via
   ```
-  cp -a build/disk/efi /mnt/efi
-  cp -a build/disk/root /mnt/root
+  # mount partitions
+  mkdir -p /mnt/{efi,root}
+  mount /dev/sdX1 /mnt/efi
+  mount /dev/sdX2 /mnt/root
+
+  # copy files
+  cp -a build/disk/efi /mnt/efi     # EFI partition
+  cp -a build/disk/root /mnt/root   # root partition
+  sync
+
+  # unmount partitions
+  umount /dev/sdX1
+  umount /dev/sdX2
+  rm -rf /mnt/{efi,root}
   ```
 
 
