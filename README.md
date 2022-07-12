@@ -18,6 +18,10 @@ where `<profile>` is the desired profile.
 Outputs and intermediate build files are stored in `./build`.
 Disk images are written to `./build/disk.img` and final file system trees to `./build/disk/root` for the root partition and `./build/disk/efi` for the EFI/EFS partition.
 
+Default login credentials are the ones provided by the Arch Linux ARM root file system, i.e. user/password `alarm`/`alarm` and `root`/`root`.
+Note that, by default, an OpenSSH server is running.
+Therefore, please do not connect this machine directly to the internet (without firewall) before changing those.
+
 
 ### Running on an x86 Host
 
