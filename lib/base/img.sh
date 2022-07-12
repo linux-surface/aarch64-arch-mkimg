@@ -48,12 +48,8 @@ _img_prepare_tree_ramfs() {
 _img_build() {
     local efs_size;
     local efs_part_size;
-    local efs_part_start;
-    local efs_part_end;
     local root_size;
     local root_part_size;
-    local root_part_start;
-    local root_part_end;
     local disk_size;
     local loopdev;
 
@@ -69,29 +65,23 @@ _img_build() {
         efs_part_size=48
     fi
 
-    efs_part_start=1
-    efs_part_end=$(( efs_part_start + efs_part_size))
-
     # compute root partition size in MiB
     root_size=$(du -bc "${_DIR_DISK_ROOT}" | grep total | cut -f1)
     root_part_size=$(( (root_size*110)/100/(1024*1024) + 1))
-
-    root_part_start=$efs_part_end
-    root_part_end=$(( root_part_start + root_part_size))
 
     # compute disk size and create base image
     _msg2 "Allocating disk image..."
     _IMG_DISK="${_DIR_BUILD}/disk.img"
 
-    disk_size=$(( root_part_end + 2 ))
+    disk_size=$(( efs_part_size + root_part_size + 5 ))
     dd if=/dev/zero of="${_IMG_DISK}" bs="${disk_size}" count=1048576 status=none
+    sync
 
     # partition base image
     _msg2 "Partitioning disk image..."
-    parted -s "${_IMG_DISK}"                                        \
-        mklabel gpt                                                 \
-        mkpart primary ${efs_part_start}MiB ${efs_part_end}MiB      \
-        mkpart primary ${root_part_start}MiB ${root_part_end}MiB
+    sgdisk "${_IMG_DISK}" -n 0:0:+${efs_part_size}MiB -t 0:ef00 -c 0:efi > /dev/null
+    sgdisk "${_IMG_DISK}" -n 0:0:+ -t 0:8300 -c 0:boot > /dev/null
+    sync
 
     # format
     _msg2 "Formatting disk image partitions..."
@@ -99,6 +89,7 @@ _img_build() {
 
     mkfs.fat -F 32 "${loopdev}p1" > /dev/null
     mkfs.ext4 "${loopdev}p2" > /dev/null 2>&1
+    sync
 
     # copy files
     _msg2 "Copying files to EFI partition..."
