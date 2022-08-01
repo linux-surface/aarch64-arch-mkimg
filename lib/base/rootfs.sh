@@ -11,7 +11,7 @@ _rootfs_copy_profile() {
     _msg2 "Copying base files..."
 
     if [[ -d "${_PROFILE_DIR}/base" ]]; then
-        cp -r "${_PROFILE_DIR}/base/." "${_DIR_BUILD_ROOTFS}"
+        cp -rL "${_PROFILE_DIR}/base/." "${_DIR_BUILD_ROOTFS}"
     fi
 }
 
