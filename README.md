@@ -25,7 +25,11 @@ docker pull ghcr.io/linux-surface/aarch64-arch-mkimg
 ```
 Disk images can then be generated via
 ```
-docker run --rm --privileged -v /dev:/dev -v "${PWD}/build":/build aarch64-arch-mkimg <profile>
+docker run --rm --privileged                  \
+    --mount type=tmpfs,destination=/run/shm   \
+    -v /dev:/dev                              \
+    -v "${PWD}/build":/build                  \
+    aarch64-arch-mkimg <profile>
 ```
 
 Default login credentials are the ones provided by the Arch Linux ARM root file system, i.e. user/password `alarm`/`alarm` and `root`/`root`.
