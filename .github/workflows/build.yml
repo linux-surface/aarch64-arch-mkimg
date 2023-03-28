@@ -1,0 +1,32 @@
+name: Build Image
+
+on: [push]
+
+jobs:
+  build:
+    name: Build default
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: | 
+          sudo apt update && sudo apt install -y \
+          libarchive-tools \
+          arch-install-scripts \
+          binfmt-support \
+          qemu-user-static
+
+      - name: Build default
+        run: sudo ./aarch64-arch-mkimg default
+
+      - name: Archive build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: default.img
+          path: build/disk.img

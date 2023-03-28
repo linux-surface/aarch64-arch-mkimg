@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -x
 
 _ROOTFS_ARCHIVE="ArchLinuxARM-aarch64-latest.tar.gz"
 _ROOTFS_URL="http://os.archlinuxarm.org/os/${_ROOTFS_ARCHIVE}"
@@ -9,7 +10,7 @@ _prepare_source_directories() {
 }
 
 _get_gpg_keys() {
-    gpg --recv-keys "${_ALARM_GPG_KEY}" > /dev/null  2>&1
+    gpg --keyserver keyserver.ubuntu.com --recv-keys "${_ALARM_GPG_KEY}" > /dev/null  2>&1
 }
 
 _download() {
