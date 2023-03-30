@@ -15,12 +15,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: | 
+        run: |
           sudo apt update && sudo apt install -y \
           libarchive-tools \
-          arch-install-scripts \
-          binfmt-support \
-          qemu-user-static
+          arch-install-scripts
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
 
       - name: Build default
         run: sudo ./aarch64-arch-mkimg default
