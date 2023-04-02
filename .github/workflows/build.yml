@@ -2,6 +2,10 @@ name: Build Image
 
 on: [push]
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: linux-surface/aarch64-arch-mkimg
+
 jobs:
   build:
     name: Build default
@@ -14,17 +18,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: |
-          sudo apt update && sudo apt install -y \
-          libarchive-tools \
-          arch-install-scripts
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
-      - name: Build default
-        run: sudo ./aarch64-arch-mkimg default
+      - name: Setup Docker buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker container
+        run: |
+          docker buildx build --output type=docker -t aarch64-arch-mkimg .
+
+      - name: Build default image
+        run: |
+          mkdir build
+          docker run --rm --privileged                  \
+              --mount type=tmpfs,destination=/run/shm   \
+              -v /dev:/dev                              \
+              -v "${PWD}/build":/build                  \
+              aarch64-arch-mkimg default
 
       - name: Archive build artifact
         uses: actions/upload-artifact@v3
