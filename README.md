@@ -98,8 +98,8 @@ The `aarch64-arch-mkimage` utility works in three major steps:
   mount /dev/sdX2 /mnt/root
 
   # copy files
-  cp -a build/disk/efi /mnt/efi     # EFI partition
-  cp -a build/disk/root /mnt/root   # root partition
+  cp -a build/disk/efi/. /mnt/efi     # EFI partition
+  cp -a build/disk/root/. /mnt/root   # root partition
   sync
 
   # unmount partitions
