@@ -12,6 +12,10 @@ source "${_CHROOT_LIB}/makepkg.sh"
 source "${_CHROOT_LIB}/modules.sh"
 source "${_CHROOT_LIB}/pacman.sh"
 
+#Copy over the modified mirrorlist to /etc/pacman.d
+cp -f ${_CHROOT_LIB}/mirrorlist /etc/pacman.d/mirrorlist
+
+#Continue as normal
 _pacman_setup
 _pacman_uninstall
 _pacman_update
