@@ -2,7 +2,9 @@ name: Build and publish Image
 
 on:
   push:
-    tags: [ '*' ]
+    tags:
+      - 'v*'
+      - 'test-image-*'
 
 env:
   REGISTRY: ghcr.io

@@ -2,7 +2,9 @@ name: Build and publish Container
 
 on:
   push:
-    tags: [ '*' ]
+    tags:
+      - 'v*'
+      - 'test-container-*'
 
 env:
   REGISTRY: ghcr.io
