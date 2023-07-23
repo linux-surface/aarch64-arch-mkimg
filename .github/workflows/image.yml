@@ -1,0 +1,71 @@
+name: Build and publish Image
+
+on:
+  push:
+    tags:
+      - 'v*'
+      - 'test-image-*'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: linux-surface/aarch64-arch-mkimg
+
+jobs:
+  build:
+    name: Build default Image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Setup Docker buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker container
+        run: |
+          docker buildx build --output type=docker -t aarch64-arch-mkimg .
+
+      - name: Build default image
+        run: |
+          mkdir build
+          docker run --rm --privileged                  \
+              --mount type=tmpfs,destination=/run/shm   \
+              -v /dev:/dev                              \
+              -v "${PWD}/build":/build                  \
+              aarch64-arch-mkimg default
+
+      - name: Rename image file
+        run: |
+          mv ./build/disk.img aarch64-arch-spx-default.img
+
+      - name: Archive build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: default.img
+          path: aarch64-arch-spx-default.img
+
+  release:
+    name: Publish release
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: default.img
+        path: default.img
+
+    - name: Upload assets
+      uses: svenstaro/upload-release-action@v2
+      with:
+        file: ./default.img/*
+        tag: ${{ github.ref }}
+        overwrite: true
+        file_glob: true
