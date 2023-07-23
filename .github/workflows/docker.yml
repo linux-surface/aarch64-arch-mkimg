@@ -1,4 +1,4 @@
-name: Build Container
+name: Build and publish Container
 
 on:
   push:

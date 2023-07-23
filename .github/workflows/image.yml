@@ -1,6 +1,8 @@
-name: Build Image
+name: Build and publish Image
 
-on: [push]
+on:
+  push:
+    tags: [ '*' ]
 
 env:
   REGISTRY: ghcr.io
@@ -8,7 +10,7 @@ env:
 
 jobs:
   build:
-    name: Build default
+    name: Build default Image
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -42,3 +44,22 @@ jobs:
         with:
           name: default.img
           path: build/disk.img
+
+  release:
+    name: Publish release
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: default.img
+        path: default.img
+
+    - name: Upload assets
+      uses: svenstaro/upload-release-action@v2
+      with:
+        file: ./default.img/*
+        tag: ${{ github.ref }}
+        overwrite: true
+        file_glob: true
