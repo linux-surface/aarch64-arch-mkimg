@@ -41,11 +41,15 @@ jobs:
               -v "${PWD}/build":/build                  \
               aarch64-arch-mkimg default
 
+      - name: Rename image file
+        run: |
+          mv ./build/disk.img aarch64-arch-spx-default.img
+
       - name: Archive build artifact
         uses: actions/upload-artifact@v3
         with:
           name: default.img
-          path: build/disk.img
+          path: aarch64-arch-spx-default.img
 
   release:
     name: Publish release
