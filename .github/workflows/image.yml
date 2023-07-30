@@ -5,6 +5,7 @@ on:
     tags:
       - 'v*'
       - 'test-image-*'
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
