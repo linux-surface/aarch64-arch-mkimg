@@ -7,3 +7,6 @@ crda
 usbutils
 htop
 neovim
+dosfstools
+arch-install-scripts
+util-linux
