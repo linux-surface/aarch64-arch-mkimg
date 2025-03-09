@@ -2,6 +2,7 @@ base
 base-devel
 git
 wget
+meson
 iwd
 crda
 usbutils
